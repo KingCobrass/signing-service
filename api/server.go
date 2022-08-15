@@ -32,7 +32,7 @@ func NewServer(listenAddress string) *Server {
 func (s *Server) Run() error {
 	mux := http.NewServeMux()
 
-	mux.Handle("/api/v0/health", http.HandlerFunc(s.Health))
+	mux.Handle("/api/v1/health", http.HandlerFunc(s.Health))
 
 	// TODO: register further HandlerFuncs here ...
 

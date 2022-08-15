@@ -17,8 +17,8 @@ func (s *Server) Health(response http.ResponseWriter, request *http.Request) {
 	}
 
 	health := HealthResponse{
-		Status:  "pass",
-		Version: "v0",
+		Status:  "OK",
+		Version: "v1",
 	}
 
 	WriteAPIResponse(response, http.StatusOK, health)

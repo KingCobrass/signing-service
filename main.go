@@ -2,8 +2,7 @@ package main
 
 import (
 	"log"
-
-	"github.com/fiskaly/coding-challenges/signing-service-challenge/api"
+	"signing-service/api"
 )
 
 const (
