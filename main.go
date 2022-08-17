@@ -1,19 +1,25 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"runtime"
 	"signing-service/api"
+	"signing-service/config"
 )
 
 const (
-	ListenAddress = ":8080"
-	// TODO: add further configuration parameters here ...
+// ListenAddress =
+// TODO: add further configuration parameters here ...
 )
 
 func main() {
-	server := api.NewServer(ListenAddress)
+
+	log.Printf("CPU Cores available in machine: %v\n", runtime.NumCPU())
+
+	server := api.NewServer(fmt.Sprintf(":%s", config.Env.Port))
 
 	if err := server.Run(); err != nil {
-		log.Fatal("Could not start server on ", ListenAddress)
+		log.Fatal("Could not start server on ", config.Env.Port)
 	}
 }

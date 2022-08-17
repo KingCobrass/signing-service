@@ -1,6 +1,9 @@
 package api
 
-import "net/http"
+import (
+	"log"
+	"net/http"
+)
 
 type HealthResponse struct {
 	Status  string `json:"status"`
@@ -9,6 +12,9 @@ type HealthResponse struct {
 
 // Health evaluates the health of the service and writes a standardized response.
 func (s *Server) Health(response http.ResponseWriter, request *http.Request) {
+
+	log.Printf("Got the Health API Request\n")
+
 	if request.Method != http.MethodGet {
 		WriteErrorResponse(response, http.StatusMethodNotAllowed, []string{
 			http.StatusText(http.StatusMethodNotAllowed),
