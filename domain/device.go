@@ -2,20 +2,20 @@ package domain
 
 // TODO: signature device domain model ...
 
-type Device struct {
-	Id        string `json:"id"`
-	Algorithm string `json:"algorithm"`
-	Abc       string `json:"abc"`
+type DevicePayload struct {
+	Id        string `json:"id" validate:"required"`
+	Algorithm string `json:"algorithm" validate:"required"`
+	Label     string `json:"label"`
 }
 
-type Direction int
+type SignTransactionPayload struct {
+	DeviceId string `json:"deviceId" validate:"required"`
+	Data     string `json:"data" validate:"required"`
+}
+
+type ALGORITHM int
 
 const (
-	ECC Direction = iota
-	RSA
+	ECC ALGORITHM = 1
+	RSA ALGORITHM = 2
 )
-
-type ISignature interface {
-	CreateSignatureDevice(id string, algorithm Direction, label string) error
-	SignTransaction(deviceId string, data string) ([]byte, error)
-}

@@ -1,4 +1,4 @@
-package crypto
+package signingCrypto
 
 import (
 	"crypto/rsa"

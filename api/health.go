@@ -10,6 +10,14 @@ type HealthResponse struct {
 	Version string `json:"version"`
 }
 
+// swagger:route POST health
+// Get health status
+//
+// responses:
+//
+//	405: Method not allowed
+//	200: Success
+//
 // Health evaluates the health of the service and writes a standardized response.
 func (s *Server) Health(response http.ResponseWriter, request *http.Request) {
 

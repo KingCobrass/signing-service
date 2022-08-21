@@ -3,7 +3,7 @@ package persistence
 import (
 	"log"
 
-	badger "github.com/dgraph-io/badger/v2"
+	badger "github.com/dgraph-io/badger/v3"
 )
 
 // DBConn is the connection for the database used - r DB
@@ -14,7 +14,7 @@ func init() {
 }
 
 func initDB() *badger.DB {
-	dbConn, err := badger.Open(badger.DefaultOptions("./tmp/badger").WithTruncate(true)) // badger.Open(badger.DefaultOptions("./tmp/badger").WithTruncate(true)) //badger.Open(badger.DefaultOptions("").WithInMemory(true))
+	dbConn, err := badger.Open(badger.DefaultOptions("").WithInMemory(true)) // badger.Open(badger.DefaultOptions("./tmp/badger").WithTruncate(true)) //badger.Open(badger.DefaultOptions("").WithInMemory(true))
 	if err != nil {
 		log.Fatal(err)
 	}

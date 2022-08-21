@@ -1,4 +1,4 @@
-package crypto
+package signingCrypto
 
 // Signer defines a contract for different types of signing implementations.
 type Signer interface {
