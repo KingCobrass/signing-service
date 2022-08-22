@@ -17,5 +17,5 @@ func init() {
 		log.Fatalf("error opening file: %v", err)
 	}
 
-	Logger = log.New(errorlog, "apilog: ", log.Lshortfile|log.LstdFlags)
+	Logger = log.New(errorlog, "api-log: ", log.Lshortfile|log.LstdFlags)
 }

@@ -34,7 +34,7 @@ func NewService(logger *log.Logger) *Service {
 	}
 }
 
-// Create device information and save into db
+// Generate key-pair for the current request, and create device information and save into db
 func (s Service) CreateSignatureDevice(deviceInfo *persistence.DeviceInfo) error {
 
 	s.log.Println(">> [deviceService][CreateSignatureDeviceResponse][Received]")
