@@ -1,8 +1,13 @@
 package api
 
 import (
+	"crypto"
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"signing-service/domain"
@@ -164,8 +169,23 @@ func (s *Server) SignTransaction(response http.ResponseWriter, request *http.Req
 					//Use device id base64 as last signature device
 					last_signature_base64_encoded = base64.StdEncoding.EncodeToString([]byte(id))
 				}
+
 				//Will do the sign
-				signature_base64 := ""
+				signature_byte, err := rsa.EncryptOAEP(sha256.New(), rand.Reader, &storedDevice.RSAKeyPair.Private.PublicKey, []byte(SignTransactionPayload.Data), nil)
+				if err != nil {
+					panic(err)
+				}
+				decryptedBytes, err := storedDevice.RSAKeyPair.Private.Decrypt(nil, signature_byte, &rsa.OAEPOptions{
+					Hash:  crypto.SHA256,
+					Label: []byte{},
+				})
+				if err != nil {
+					panic(err)
+				}
+
+				fmt.Println("decrypted message: ", string(decryptedBytes))
+
+				signature_base64 := base64.StdEncoding.EncodeToString([]byte(signature_byte))
 				signatureResponse := SignatureResponse{
 					Signature:   signature_base64,
 					Signed_Data: strconv.Itoa(signatureCounter) + "_" + SignTransactionPayload.Data + "_" + last_signature_base64_encoded,
@@ -173,7 +193,10 @@ func (s *Server) SignTransaction(response http.ResponseWriter, request *http.Req
 				//To-Do
 				//Update signature counter, last_signature_base64
 				deviceService.SaveSignatureCounter(signatureCounter)
+				//reset last signature base64
+				last_signature_base64_encoded = signature_base64
 				deviceService.SaveLastSignatureBase64(last_signature_base64_encoded)
+
 				WriteAPIResponse(response, http.StatusOK, signatureResponse)
 
 			} else {
